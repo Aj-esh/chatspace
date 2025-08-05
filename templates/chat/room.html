@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} chatspace {{ room_addr }} {% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'chat/css/room.css' %}">
+{% endblock extra_head %}
+
+{% block scripts %}
+<script src="{% static 'chat/js/room.js' %}"></script>
+{% endblock scripts %}
+
+{% block content %}
+<div class="chat-container">
+    <div class="chat-pane">
+        <div class="chat-header">
+            <h2>chatspace {{ room_addr }}</h2>
+        </div>
+        <div id="chat-log" class="chat-messages"></div>
+        <div class="chat-input">
+            <input id="chat-message-input" type="text" placeholder="Type your message...">
+            <button id="chat-message-submit">Send</button>
+        </div>
+    </div>
+
+    {{ room_addr | json_script:"room_addr" }}
+    {{ username | json_script:"username" }}
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'chat/js/room.js' %}"></script>
+{% endblock %}
