@@ -5,6 +5,54 @@ body, html {
     overflow: hidden;
 }
 
+.page-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* --- New Header Styles --- */
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #d1d7de;
+    flex-shrink: 0; /* Prevent header from shrinking */
+}
+
+.header-title {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.room-addr-small {
+    font-size: 0.6em;
+    color: #6c757d;
+    font-weight: normal;
+}
+
+.profile-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #007bff;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+/* --- End Header Styles --- */
+
+.main-container {
+    display: flex;
+    flex-grow: 1; /* This makes the container fill the remaining height */
+    width: 100%;
+}
+
 .main-container {
     display: flex;
     height: calc(100vh - 75px); /* Adjust based on footer height */

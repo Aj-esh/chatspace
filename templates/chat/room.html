@@ -12,23 +12,36 @@
 {% endblock scripts %}
 
 {% block content %}
-<div class="main-container">
-    <div class="doc-pane">
-        <div class="doc-header">
-            <h3>colabspace</h3>
+<div class="page-container">
+    <header class="top-header">
+        <div class="header-title">
+            chatspace <span class="room-addr-small">{{ room_addr }}</span>
         </div>
-        <textarea id="doc-editor" class="document"></textarea>
+        <div class="profile-icon">
+            {{ username|first|upper }}
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="doc-pane">
+            <div class="doc-header">
+                <h3>colabspace</h3>
+            </div>
+            <textarea id="doc-editor" class="document"></textarea>
         </div>
 
-    <div class="chat-pane">
-        <div class="chat-header">
-            <h2>chatspace</h2>
+        <div class="chat-pane">
+            <div class="chat-header">
+                <h3>chatspace</h3>
+            </div>
+            <div id="chat-log" class="chat-messages"></div>
+            <div class="chat-input">
+                <input id="chat-message-input" type="text" placeholder="message..." autocomplete="off">
+                <button id="chat-message-submit">send</button>
+            </div>
         </div>
-        <div id="chat-log" class="chat-messages"></div>
-        <div class="chat-input">
-            <input id="chat-message-input" type="text" placeholder="message..." autocomplete="off">
-            <button id="chat-message-submit">send</button>
     </div>
+</div>
 
     {{ room_addr | json_script:"room_addr" }}
     {{ username | json_script:"username" }}
