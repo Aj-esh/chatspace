@@ -25,33 +25,17 @@ class ChatConsumer(AsyncWebsocketConsumer):
         # handle incoming messages
         data = json.loads(text_data)
 
-        username = data['username']
-        message = data['message']
-        time = data['time']
-        chattype = 0  # Default chat type
-
         # Send message to room group
         await self.channel_layer.group_send(
             self.room_group_name,
             {
-                'type' : 'chat_message',
-                'username' : username,
-                'message' : message,
-                'time' : time
+                'type' : 'broadcast_message',
+                'payload' : data
             }
         )
 
-    async def chat_message(self, event):
+    async def broadcast_message(self, event):
         # Send message to WebSocket
-        message = event['message']
-        username = event['username']
-        time = event['time']
-
-        # Send message to WebSocket
-        await self.send(text_data=json.dumps({
-            'message': message,
-            'username': username,
-            'time': time
-        }))
+        await self.send(text_data=json.dumps(event['payload']))
 
 
