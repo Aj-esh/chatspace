@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from .models import Room
+from .cassandra_model import ChatMessage
 import uuid
 
 # Create your views here.
@@ -11,12 +12,17 @@ def home_view(request):
 def room_view(request, room_addr):
     try:
         room = Room.objects.get(addr=room_addr)
+        messages = ChatMessage.objects.filter(room_addr=room_addr).limit(50)
+        messages = list(reversed(messages))
+
         return render(
             request=request,
             template_name='chat/room.html',
             context={
                 'room_addr': room_addr,
-                'username': request.user.username
+                'username': request.user.username,
+                'messages': messages,
+                'content':'text'
         })
     
     except Room.DoesNotExist:

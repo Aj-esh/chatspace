@@ -1,5 +1,7 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
+from asgiref.sync import sync_to_async
+from .cassandra_model import ChatMessage
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -33,9 +35,19 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 'payload' : data
             }
         )
+        await self.save_message(data)
 
     async def broadcast_message(self, event):
         # Send message to WebSocket
         await self.send(text_data=json.dumps(event['payload']))
+
+    @sync_to_async
+    def save_message(self, data):
+        ChatMessage.create(
+            room_addr=self.room_addr,
+            username=data.get('username'),
+            content=data.get('message'),
+            msg_type=data.get('msg_type', 'text')
+        )
 
 

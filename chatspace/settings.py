@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os  # add
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -82,6 +83,15 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+# --- Cassandra (chat history persistence) ---
+# Comma-separated hosts in env: "127.0.0.1" or "cassandra-1,cassandra-2"
+CASSANDRA_CONTACT_POINTS = [
+    h.strip() for h in os.getenv("CASSANDRA_CONTACT_POINTS", "127.0.0.1").split(",") if h.strip()
+]
+CASSANDRA_PORT = int(os.getenv("CASSANDRA_PORT", "9042"))
+CASSANDRA_KEYSPACE = os.getenv("CASSANDRA_KEYSPACE", "chatspace_ks")
+CASSANDRA_PROTOCOL_VERSION = int(os.getenv("CASSANDRA_PROTOCOL_VERSION", "3"))
 
 CHANNEL_LAYERS = {
     "default": {
